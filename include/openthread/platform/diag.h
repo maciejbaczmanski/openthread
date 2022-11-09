@@ -137,6 +137,7 @@ void otPlatDiagAlarmCallback(otInstance *aInstance);
  *
  * @retval OT_ERROR_NONE             Successfully set the gpio.
  * @retval OT_ERROR_INVALID_ARGS     @p aGpio is not supported.
+ * @retval OT_ERROR_INVALID_STATE    @p aGpio pin is not configured correctly or platform is in invalid state.
  * @retval OT_ERROR_NOT_IMPLEMENTED  This function is not implemented on the platform.
  *
  */
@@ -150,10 +151,38 @@ otError otPlatDiagGpioSet(uint32_t aGpio, bool aValue);
  *
  * @retval OT_ERROR_NONE             Successfully got the gpio value.
  * @retval OT_ERROR_INVALID_ARGS     @p aGpio is not supported or @p aValue is NULL.
+ * @retval OT_ERROR_INVALID_STATE    @p aGpio pin is not configured correctly or platform is in invalid state.
  * @retval OT_ERROR_NOT_IMPLEMENTED  This function is not implemented on the platform.
  *
  */
 otError otPlatDiagGpioGet(uint32_t aGpio, bool *aValue);
+
+/**
+ * This function configures the gpio pin as output.
+ *
+ * @param[in]   aGpio   The gpio number.
+ *
+ * @retval OT_ERROR_NONE             Successfully configured the gpio pin.
+ * @retval OT_ERROR_INVALID_ARGS     @p aGpio is not supported.
+ * @retval OT_ERROR_INVALID_STATE    Platform is in invalid state.
+ * @retval OT_ERROR_NOT_IMPLEMENTED  This function is not implemented on the platform.
+ *
+ */
+otError otPlatDiagGpioOut(uint32_t aGpio);
+
+/**
+ * This function configures the gpio pin as input.
+ *
+ * @param[in]   aGpio   The gpio number.
+ *
+ * @retval OT_ERROR_NONE             Successfully configured the gpio pin.
+ * @retval OT_ERROR_INVALID_ARGS     @p aGpio is not supported.
+ * @retval OT_ERROR_INVALID_STATE    Platform is in invalid state.
+ * @retval OT_ERROR_NOT_IMPLEMENTED  This function is not implemented on the platform.
+ *
+ */
+otError otPlatDiagGpioIn(uint32_t aGpio);
+
 
 /**
  * @}

@@ -37,13 +37,30 @@
 #include <openthread/platform/alarm-milli.h>
 #include <openthread/platform/radio.h>
 
+#include "utils/code_utils.h"
+
 #if OPENTHREAD_CONFIG_DIAG_ENABLE
 
 /**
  * Diagnostics mode variables.
  *
  */
+
+enum
+{
+    SIM_GPIO = 0,
+};
+
+enum
+{
+    SIM_GPIO_CFG_OUT = 0,
+    SIM_GPIO_CFG_IN = 1,
+    SIM_GPIO_CFG_UNDEFINED = 2,
+}
+
 static bool sDiagMode = false;
+static bool sGpioValue = false;
+static int8_t sGpioConfig = SIM_GPIO_CFG_UNDEFINED;
 
 void otPlatDiagModeSet(bool aMode)
 {
@@ -76,5 +93,52 @@ void otPlatDiagAlarmCallback(otInstance *aInstance)
 {
     OT_UNUSED_VARIABLE(aInstance);
 }
+
+otError otPlatDiagGpioSet(uint32_t aGpio, bool aValue)
+{
+    otError error = OT_ERROR_NONE;
+
+    otEXPECT_ACTION(aGpio == SIM_GPIO, error = OT_ERROR_INVALID_ARGS);
+    otEXPECT_ACTION(sGpioConfig == SIM_GPIO_CFG_OUT, error = OT_ERROR_INVALID_STATE);
+    sGpioValue = aValue;
+
+exit:
+    return error;
+}
+
+otError otPlatDiagGpioGet(uint32_t aGpio, bool *aValue)
+{
+    otError error = OT_ERROR_NONE;
+
+    otEXPECT_ACTION((aGpio == SIM_GPIO) && (aValue != NULL), error = OT_ERROR_INVALID_ARGS);
+    otEXPECT_ACTION(sGpioConfig == SIM_GPIO_CFG_IN, error = OT_ERROR_INVALID_STATE);
+    *aValue = sGpioValue;
+
+exit:
+    return error;
+}
+
+otError otPlatDiagGpioOut(uint32_t aGpio)
+{
+    otError error = OT_ERROR_NONE;
+
+    otEXPECT_ACTION(aGpio == SIM_GPIO, error = OT_ERROR_INVALID_ARGS);
+    sGpioConfig = SIM_GPIO_CFG_OUT;
+
+exit:
+    return error;
+}
+
+otError otPlatDiagGpioIn(uint32_t aGpio)
+{
+    otError error = OT_ERROR_NONE;
+
+    otEXPECT_ACTION(aGpio == SIM_GPIO, error = OT_ERROR_INVALID_ARGS);
+    sGpioConfig = SIM_GPIO_CFG_IN;
+
+exit:
+    return error;
+}
+
 
 #endif // OPENTHREAD_CONFIG_DIAG_ENABLE

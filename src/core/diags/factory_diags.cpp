@@ -564,6 +564,18 @@ Error Diags::ProcessGpio(uint8_t aArgsLength, char *aArgs[], char *aOutput, size
         SuccessOrExit(error = ParseBool(aArgs[2], level));
         SuccessOrExit(error = otPlatDiagGpioSet(gpio, level));
     }
+    else if ((aArgsLength == 2) && (strcmp(aArgs[0], "in") == 0))
+    {
+        SuccessOrExit(error = ParseLong(aArgs[1], value));
+        gpio = static_cast<uint32_t>(value);
+        SuccessOrExit(error = otPlatDiagGpioIn(gpio));
+    }
+    else if ((aArgsLength == 2) && (strcmp(aArgs[0], "out") == 0))
+    {
+        SuccessOrExit(error = ParseLong(aArgs[1], value));
+        gpio = static_cast<uint32_t>(value);
+        SuccessOrExit(error = otPlatDiagGpioOut(gpio));
+    }
     else
     {
         error = kErrorInvalidArgs;
@@ -721,6 +733,20 @@ OT_TOOL_WEAK otError otPlatDiagGpioGet(uint32_t aGpio, bool *aValue)
 {
     OT_UNUSED_VARIABLE(aGpio);
     OT_UNUSED_VARIABLE(aValue);
+
+    return OT_ERROR_NOT_IMPLEMENTED;
+}
+
+OT_TOOL_WEAK otError otPlatDiagGpioOut(uint32_t aGpio)
+{
+    OT_UNUSED_VARIABLE(aGpio);
+
+    return OT_ERROR_NOT_IMPLEMENTED;
+}
+
+OT_TOOL_WEAK otError otPlatDiagGpioIn(uint32_t aGpio)
+{
+    OT_UNUSED_VARIABLE(aGpio);
 
     return OT_ERROR_NOT_IMPLEMENTED;
 }

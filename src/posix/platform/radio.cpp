@@ -575,6 +575,30 @@ exit:
     return error;
 }
 
+otError otPlatDiagGpioOut(uint32_t aGpio)
+{
+    otError error;
+    char    cmd[OPENTHREAD_CONFIG_DIAG_CMD_LINE_BUFFER_SIZE];
+
+    snprintf(cmd, sizeof(cmd), "gpio out %d", aGpio);
+    SuccessOrExit(error = sRadioSpinel.PlatDiagProcess(cmd, nullptr, 0));
+
+exit:
+    return error;
+}
+
+otError otPlatDiagGpioIn(uint32_t aGpio)
+{
+    otError error;
+    char    cmd[OPENTHREAD_CONFIG_DIAG_CMD_LINE_BUFFER_SIZE];
+
+    snprintf(cmd, sizeof(cmd), "gpio in %d", aGpio);
+    SuccessOrExit(error = sRadioSpinel.PlatDiagProcess(cmd, nullptr, 0));
+
+exit:
+    return error;
+}
+
 void otPlatDiagRadioReceived(otInstance *aInstance, otRadioFrame *aFrame, otError aError)
 {
     OT_UNUSED_VARIABLE(aInstance);

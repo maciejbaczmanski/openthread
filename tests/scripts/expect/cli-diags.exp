@@ -155,6 +155,22 @@ expect "receive"
 expect_line "Done"
 
 send "diag gpio set 0 1\n"
+expect "failed"
+expect "status 0xd"
+expect_line "Error 13: InvalidState"
+
+send "diag gpio out 0 \n"
+expect_line "Done"
+
+send "diag gpio set 0 1\n"
+expect_line "Done"
+
+send "diag gpio get 0\n"
+expect "failed"
+expect "status 0xd"
+expect_line "Error 13: InvalidState"
+
+send "diag gpio in 0\n"
 expect_line "Done"
 
 send "diag gpio get 0\n"
