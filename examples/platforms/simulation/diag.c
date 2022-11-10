@@ -56,7 +56,7 @@ enum
     SIM_GPIO_CFG_OUT = 0,
     SIM_GPIO_CFG_IN = 1,
     SIM_GPIO_CFG_UNDEFINED = 2,
-}
+};
 
 static bool sDiagMode = false;
 static bool sGpioValue = false;
