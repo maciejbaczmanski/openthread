@@ -121,12 +121,13 @@ public:
      */
     void SetSrcMatchAsShort(Child &aChild, bool aUseShortAddress);
 
-private:
     /**
      * Clears the source match table.
      *
      */
     void ClearTable(void);
+
+private:
 
     /**
      * Enables or disables the source matching.

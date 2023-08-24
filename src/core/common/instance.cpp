@@ -327,6 +327,9 @@ void Instance::AfterInit(void)
     Get<Settings>().Init();
     Get<KeyManager>().Init();
     Get<Mac::Mac>().Init();
+#if OPENTHREAD_FTD
+    Get<SourceMatchController>().ClearTable();
+#endif
 
     Get<Mle::MleRouter>().Restore();
 
