@@ -250,6 +250,13 @@ OT_TOOL_WEAK uint32_t otPlatRadioGetBusSpeed(otInstance *aInstance)
     return 0;
 }
 
+OT_TOOL_WEAK uint32_t otPlatRadioGetBusLatency(otInstance *aInstance)
+{
+    OT_UNUSED_VARIABLE(aInstance);
+
+    return 0;
+}
+
 #if OPENTHREAD_CONFIG_MAC_CSL_RECEIVER_ENABLE
 OT_TOOL_WEAK otError otPlatRadioResetCsl(otInstance *aInstance)
 {

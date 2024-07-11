@@ -39,6 +39,7 @@
 #include <stdlib.h>
 
 #include <openthread/logging.h>
+#include <openthread/thread_ftd.h>
 #include <openthread/platform/diag.h>
 #include <openthread/platform/time.h>
 
@@ -79,6 +80,7 @@ RadioSpinel::RadioSpinel(void)
     , mPanId(0xffff)
     , mChannel(0)
     , mRxSensitivity(0)
+    , mBusLatency(0)
     , mState(kStateDisabled)
     , mIsPromiscuous(false)
     , mRxOnWhenIdle(true)
@@ -1775,6 +1777,41 @@ void RadioSpinel::GetDiagOutputCallback(otPlatDiagOutputCallback &aCallback, voi
     aContext  = mOutputContext;
 }
 
+otError RadioSpinel::RadioSpinelDiagProcess(char *aArgs[], uint8_t aArgsLength)
+{
+    otError error = OT_ERROR_NONE;
+
+    VerifyOrExit(aArgsLength > 1, error = OT_ERROR_INVALID_ARGS);
+
+    aArgs++;
+    aArgsLength--;
+
+    if (strcmp(aArgs[0], "buslatency") == 0)
+    {
+        if (aArgsLength == 1)
+        {
+            PlatDiagOutput("%lu\n", ToUlong(GetBusLatency()));
+        }
+        else if (aArgsLength == 2)
+        {
+            uint32_t busLatency;
+            char    *endptr;
+
+            busLatency = static_cast<uint32_t>(strtoul(aArgs[1], &endptr, 0));
+            VerifyOrExit(*endptr == '\0', error = OT_ERROR_INVALID_ARGS);
+
+            SetBusLatency(busLatency);
+        }
+        else
+        {
+            error = OT_ERROR_INVALID_ARGS;
+        }
+    }
+
+exit:
+    return error;
+}
+
 otError RadioSpinel::PlatDiagProcess(const char *aString)
 {
     return Set(SPINEL_PROP_NEST_STREAM_MFG, SPINEL_DATATYPE_UTF8_S, aString);
@@ -1903,6 +1940,19 @@ exit:
 uint64_t RadioSpinel::GetNow(void) { return (mIsTimeSynced) ? (otPlatTimeGet() + mRadioTimeOffset) : UINT64_MAX; }
 
 uint32_t RadioSpinel::GetBusSpeed(void) const { return GetSpinelDriver().GetSpinelInterface()->GetBusSpeed(); }
+
+uint32_t RadioSpinel::GetBusLatency(void) const { return mBusLatency; }
+
+void RadioSpinel::SetBusLatency(uint32_t aBusLatency)
+{
+    mBusLatency = aBusLatency;
+#if OPENTHREAD_CONFIG_MAC_CSL_TRANSMITTER_ENABLE
+    if (IsEnabled())
+    {
+        otThreadUpdateFrameRequestAhead(mInstance);
+    }
+#endif // OPENTHREAD_CONFIG_MAC_CSL_TRANSMITTER_ENABLE
+}
 
 void RadioSpinel::HandleRcpUnexpectedReset(spinel_status_t aStatus)
 {
