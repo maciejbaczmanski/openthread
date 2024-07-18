@@ -39,7 +39,6 @@
 #include <stdlib.h>
 
 #include <openthread/logging.h>
-#include <openthread/thread_ftd.h>
 #include <openthread/platform/diag.h>
 #include <openthread/platform/time.h>
 
@@ -1946,12 +1945,11 @@ uint32_t RadioSpinel::GetBusLatency(void) const { return mBusLatency; }
 void RadioSpinel::SetBusLatency(uint32_t aBusLatency)
 {
     mBusLatency = aBusLatency;
-#if OPENTHREAD_CONFIG_MAC_CSL_TRANSMITTER_ENABLE
-    if (IsEnabled())
+
+    if (IsEnabled() && mCallbacks.mBusLatencyUpdated != nullptr)
     {
-        otThreadUpdateFrameRequestAhead(mInstance);
+        mCallbacks.mBusLatencyUpdated(mInstance);
     }
-#endif // OPENTHREAD_CONFIG_MAC_CSL_TRANSMITTER_ENABLE
 }
 
 void RadioSpinel::HandleRcpUnexpectedReset(spinel_status_t aStatus)

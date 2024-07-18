@@ -229,6 +229,12 @@ public:
          */
         void HandleEnergyScanDone(int8_t aMaxRssi);
 
+        /**
+         * This callback method handles "Bus Latency Updated" event from radio platform.
+         *
+         */
+        void HandleBusLatencyUpdated(void);
+
 #if OPENTHREAD_CONFIG_DIAG_ENABLE
         /**
          * This callback method handles a "Receive Done" event from radio platform when diagnostics mode is enabled.

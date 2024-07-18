@@ -428,12 +428,4 @@ void otThreadGetNextHopAndPathCost(otInstance *aInstance,
         (aPathCost != nullptr) ? *aPathCost : pathcost);
 }
 
-#if OPENTHREAD_CONFIG_MAC_CSL_TRANSMITTER_ENABLE
-void otThreadUpdateFrameRequestAhead(otInstance *aInstance)
-{
-    AsCoreType(aInstance).Get<CslTxScheduler>().UpdateFrameRequestAhead();
-}
-
-#endif // OPENTHREAD_CONFIG_MAC_CSL_TRANSMITTER_ENABLE
-
 #endif // OPENTHREAD_FTD

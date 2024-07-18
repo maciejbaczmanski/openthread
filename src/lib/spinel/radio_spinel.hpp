@@ -88,6 +88,14 @@ struct RadioSpinelCallbacks
     void (*mEnergyScanDone)(otInstance *aInstance, int8_t aMaxRssi);
 
     /**
+     * This callback notifies user of `RadioSpinel` that the bus latency has been updated.
+     *
+     * @param[in]  aInstance  The OpenThread instance structure.
+     *
+     */
+    void (*mBusLatencyUpdated)(otInstance *aInstance);
+
+    /**
      * This callback notifies user of `RadioSpinel` that the transmission has started.
      *
      * @param[in]  aInstance  A pointer to the OpenThread instance structure.

@@ -116,6 +116,17 @@ exit:
     return;
 }
 
+extern "C" void otPlatRadioBusLatencyUpdated(otInstance *aInstance)
+{
+    Instance &instance = AsCoreType(aInstance);
+
+    VerifyOrExit(instance.IsInitialized());
+    instance.Get<Radio::Callbacks>().HandleBusLatencyUpdated();
+
+exit:
+    return;
+}
+
 #if OPENTHREAD_CONFIG_DIAG_ENABLE
 extern "C" void otPlatDiagRadioReceiveDone(otInstance *aInstance, otRadioFrame *aFrame, otError aError)
 {
@@ -152,6 +163,8 @@ extern "C" void otPlatRadioTxStarted(otInstance *, otRadioFrame *) {}
 extern "C" void otPlatRadioTxDone(otInstance *, otRadioFrame *, otRadioFrame *, otError) {}
 
 extern "C" void otPlatRadioEnergyScanDone(otInstance *, int8_t) {}
+
+extern "C" void otPlatRadioBusLatencyUpdated(otInstance *) {}
 
 #if OPENTHREAD_CONFIG_DIAG_ENABLE
 extern "C" void otPlatDiagRadioReceiveDone(otInstance *, otRadioFrame *, otError) {}

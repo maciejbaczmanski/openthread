@@ -954,15 +954,6 @@ void otThreadGetNextHopAndPathCost(otInstance *aInstance,
                                    uint8_t    *aPathCost);
 
 /**
- * Calculates and updates value of CSL Frame Request Ahead, based on bus speed, bus latency and
- * `OPENTHREAD_CONFIG_MAC_CSL_REQUEST_AHEAD_US`.
- *
- * @param[in] aInstance A pointer to an OpenThread instance.
- *
- */
-void otThreadUpdateFrameRequestAhead(otInstance *aInstance);
-
-/**
  * @}
  *
  */

@@ -84,10 +84,11 @@ void Radio::Init(const char *aUrl)
     callbacks.mDiagReceiveDone  = otPlatDiagRadioReceiveDone;
     callbacks.mDiagTransmitDone = otPlatDiagRadioTransmitDone;
 #endif // OPENTHREAD_CONFIG_DIAG_ENABLE
-    callbacks.mEnergyScanDone = otPlatRadioEnergyScanDone;
-    callbacks.mReceiveDone    = otPlatRadioReceiveDone;
-    callbacks.mTransmitDone   = otPlatRadioTxDone;
-    callbacks.mTxStarted      = otPlatRadioTxStarted;
+    callbacks.mEnergyScanDone    = otPlatRadioEnergyScanDone;
+    callbacks.mBusLatencyUpdated = otPlatRadioBusLatencyUpdated;
+    callbacks.mReceiveDone       = otPlatRadioReceiveDone;
+    callbacks.mTransmitDone      = otPlatRadioTxDone;
+    callbacks.mTxStarted         = otPlatRadioTxStarted;
 
     resetRadio             = !mRadioUrl.HasParam("no-reset");
     skipCompatibilityCheck = mRadioUrl.HasParam("skip-rcp-compatibility-check");

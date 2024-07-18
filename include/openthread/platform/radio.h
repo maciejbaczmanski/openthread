@@ -1015,6 +1015,14 @@ otError otPlatRadioEnergyScan(otInstance *aInstance, uint8_t aScanChannel, uint1
 extern void otPlatRadioEnergyScanDone(otInstance *aInstance, int8_t aEnergyScanMaxRssi);
 
 /**
+ * The radio driver calls this method to notify OpenThread that the spinel bus latency has been updated.
+ *
+ * @param[in]  aInstance  The OpenThread instance structure.
+ *
+ */
+extern void otPlatRadioBusLatencyUpdated(otInstance *aInstance);
+
+/**
  * Enable/Disable source address match feature.
  *
  * The source address match feature controls how the radio layer decides the "frame pending" bit for acks sent in
